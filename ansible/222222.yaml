@@ -1,0 +1,14 @@
+ - name: download jenkins.repo
+    get_url:
+      url: http://pkg.jenkins-ci.org/debian-stable/jenkins.repo
+      dest: /etc/yum.repos.d/jenkins.repo
+
+  - name: import jenkins key
+    rpm_key:
+      state: present
+      key: https://www.jenkins.io/debian/jenkins-ci.org.key
+
+  - name: install jenkins
+    apt:
+      name: jenkins
+      state: present

@@ -1,0 +1,2 @@
+[ansible_master]
+ansible1  ansible_host=16.170.171.23 ansible_user=ubuntu ansible_ssh_private_key_file=~/my_project/django/mebel/terraform_aws/terraform-key-dev-1.pem

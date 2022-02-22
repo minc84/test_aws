@@ -1,0 +1,159 @@
+---
+- name: Test connect servers
+  hosts: ansible_master 
+  become: yes 
+
+  vars:
+    source_file: eksctl
+    destin_file: /usr/local/bin
+
+    source_file1: kuber.yml
+    destin_file1: /home/ubuntu/kuber
+
+    source_file2: my_cluster.yml
+    destin_file2: /home/ubuntu/kuber
+
+  tasks:
+
+  - name: install wget
+    apt:
+      name: wget
+      state: present
+
+  - name: Install aws cli
+    apt:
+      name: awscli
+      state: latest 
+
+  - name: install kuber
+    snap: 
+      name: kubectl
+      classic: yes
+
+
+  - name: copy eksctl
+    copy:
+      src: '{{ source_file }}'
+      dest: '{{ destin_file1}}'      
+      mode: '0755'
+
+  
+
+  - name: make dir
+    file: 
+      path: '/home/ubuntu/kuber' 
+      state: 'directory'
+      owner: ubuntu
+      group: ubuntu
+      mode: '755'
+
+  - name: copy kuber.yml
+    copy: 
+      src: '{{ source_file1 }}'
+      dest: '{{ destin_file1 }}'
+      owner: ubuntu
+      group: ubuntu
+      mode: '0755'
+
+
+  - name: copy kuber.yml
+    copy: 
+      src: '{{ source_file2 }}'
+      dest: '{{ destin_file2 }}'
+      owner: ubuntu
+      group: ubuntu
+      mode: '0755'
+
+  - name: install openjdk
+    apt:
+      name: openjdk-8-jre
+      state: present
+
+
+  - name: ensure the jenkins apt repository key is installed
+    apt_key: 
+      url: https://pkg.jenkins.io/debian-stable/jenkins.io.key 
+      state: present
+    
+
+  - name: ensure the repository is configured
+    apt_repository: 
+      repo: 'deb https://pkg.jenkins.io/debian-stable binary/'
+      state: present
+
+     
+  - name: ensure jenkins is installed
+    apt:
+      name: jenkins 
+      update_cache: yes
+      state: present 
+
+
+
+
+  - name: start jenkins
+    systemd:
+      name: jenkins
+      state: started
+
+  - name: enable jenkins
+    systemd:
+      name: jenkins
+      enabled: true
+
+  - name: sleep for 30 seconds and continue with play
+    wait_for: timeout=30
+    delegate_to: localhost
+
+  - name: init password jenkin
+    shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+    changed_when: false
+    register: result
+
+  - name: print init password jenkins
+    debug:
+      var: result.stdout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  - name: make dir
+    file: path=/home/ubuntu/kuber state=directory mode=755
+
+  - name: copy kuber.yml
+    copy: 
+      src: '{{ source_file1 }}'
+      dest: '{{ destin_file1 }}'
+      owner: ubuntu
+      group: ubuntu
+      mode: '0755'
+
+
