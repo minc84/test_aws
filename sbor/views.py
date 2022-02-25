@@ -43,7 +43,7 @@ def test(request,test):
 
 def addpage(request):
   
-	return HttpResponse("Добавление статьи")
+	return HttpResponse("Способы оплаты")
  
 def contact(request):
   
@@ -51,7 +51,7 @@ def contact(request):
  
 def login(request):
 
-	return HttpResponse("Авторизация")
+	return HttpResponse("Контакты")
 
 
 class ShowPost(DataMixin, DetailView):
