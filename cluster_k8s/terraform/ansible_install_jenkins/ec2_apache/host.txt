@@ -1,0 +1,19 @@
+[ansible_jenkins_slave]
+ansiblejenkins ansible_host=16.170.235.181 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/kuber/slave_jenkins/jenkins-key-slave.pem
+
+[ansible_mysql]
+mysql ansible_host=13.51.200.26 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/kuber/slave_jenkins/jenkins-key-slave.pem
+
+[ansible_django]
+django ansible_host=13.51.150.47 ansible_user=ubuntu ansible_ssh_private_key_file=/home/ubuntu/kuber/slave_jenkins/jenkins-key-slave.pem
+
+
+  apt install python3.8-venv
+ sudo a2ensite 000-default.conf
+ sudo a2enmod wsg
+ apt install python3.8-venv
+/var/log/apache2/error.log
+/etc/apache2/sites-available
+
+
+ apt install python3.8-venv

@@ -1,7 +1,7 @@
 
 provider "aws" {
-  access_key = "key"
-  secret_key = "key"
+  access_key = var.akey
+  secret_key = var.skey
   region = var.region
 }
 
@@ -25,7 +25,7 @@ resource "aws_key_pair" "generated_key" {
 
 }
 
-data "aws_availability_zones" "working"{} # рабочие зоны
+
 
 data "aws_ami" "last_ubuntu"{ # получаем ами 
 
@@ -45,7 +45,7 @@ resource "aws_instance" "master_ansible" {
   user_data = file( "user.sh")
 
 tags = {
-    Name = "Myster Ansible Demo"
+    Name = "Myster Ansible Kuber_Jenk"
     Project = "learn terraform"
   }
 

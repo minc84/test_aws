@@ -1,0 +1,92 @@
+
+---
+- name: Install Mysql
+  hosts: ansible_django
+  become: yes
+
+
+  vars:
+    source_file: site-config.conf
+    destin_file: /etc/apache2/sites-available/000-default.conf
+
+
+
+  tasks:
+
+  - name: Install curl
+    apt:
+      name: curl
+      state: present
+
+  - name: Install apache2
+    apt:
+      name: apache2
+      state: present
+
+  - name: start apache2
+    systemd:
+      name: apache2
+      state: started
+
+  - name: enable apache2
+    systemd:
+      name: apache2
+      enabled: true
+
+  - name: apache2-utils
+    apt:
+      name: apache2-utils
+      state: present
+
+
+  - name: python3
+    apt:
+      name: python3
+      state: present
+
+  - name: Install and upgrade pip
+    apt:
+      name: python3-pip
+      state: present
+
+
+  - name: libapache2-mod-wsgi-py3
+    apt:
+      name: libapache2-mod-wsgi-py3
+      state: present
+
+  - name: copy ite-config.conf
+    copy:
+      src: '{{ source_file }}'
+      dest: '{{ destin_file }}'
+      owner: ubuntu
+      group: ubuntu
+      mode: '0755'
+  
+
+
+  - name: make dir
+    ansible.builtin.file:
+      path: /var/www/html/mebel
+      state: directory
+      owner: www-data
+      group: www-data
+      mode: '0755'
+
+     
+  - name: a2ensite 
+      command: a2ensite 
+      args:
+        creates: /etc/apache2/sites-available/000-default.conf
+
+
+  - apache2_module:
+      name: wsgi
+      state: present
+      
+
+
+  - name: restarted apache2
+    systemd:
+      name: apache2
+      state: restarted

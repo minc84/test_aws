@@ -31,21 +31,24 @@
       classic: yes
 
 
+  - name: make dir
+    ansible.builtin.file: 
+      path: /home/ubuntu/kuber 
+      state: directory
+      owner: ubuntu
+      group: ubuntu
+      mode: '0755'
+
+
   - name: copy eksctl
     copy:
       src: '{{ source_file }}'
-      dest: '{{ destin_file1}}'      
+      dest: '{{ destin_file }}'      
       mode: '0755'
 
   
 
-  - name: make dir
-    file: 
-      path: '/home/ubuntu/kuber' 
-      state: 'directory'
-      owner: ubuntu
-      group: ubuntu
-      mode: '755'
+ 
 
   - name: copy kuber.yml
     copy: 
@@ -101,12 +104,10 @@
       name: jenkins
       enabled: true
 
-  - name: sleep for 30 seconds and continue with play
-    wait_for: timeout=30
-    delegate_to: localhost
+
 
   - name: init password jenkin
-    shell: cat /var/lib/jenkins/secrets/initialAdminPassword
+    shell: sudo cat /var/lib/jenkins/secrets/initialAdminPassword
     changed_when: false
     register: result
 
@@ -115,45 +116,5 @@
       var: result.stdout
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  - name: make dir
-    file: path=/home/ubuntu/kuber state=directory mode=755
-
-  - name: copy kuber.yml
-    copy: 
-      src: '{{ source_file1 }}'
-      dest: '{{ destin_file1 }}'
-      owner: ubuntu
-      group: ubuntu
-      mode: '0755'
 
 

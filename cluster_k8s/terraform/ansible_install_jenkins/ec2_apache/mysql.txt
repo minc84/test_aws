@@ -1,0 +1,25 @@
+
+
+Mysql поключ к серверу заходим в sudo mysql
+создаем пользователя бд и права
+
+create user 'frodo'@'%' identified with mysql_native_password by '11111111';
+mysql> GRANT ALL PRIVILEGES ON *.* to 'frodo'@'%';
+
+GRANT ALL PRIVILEGES ON `congac`.* TO 'frodo'@'%';
+
+
+выгружаем локальную бд
+mysqldump -uuser -p11111111 congac > /home/minc84/sqldumpname.sql
+
+пересылаем на мастер
+
+scp -i /home/minc84/kuber/ter/terraform-key-ans-master.pem /home/minc84/sqldumpname.sql ubuntu@16.171.12.184:/home/ubuntu/ 
+
+потом на mysql
+
+scp -i /home/ubuntu/kuber/slave_jenkins/jenkins-key-slave.pem /home/ubuntu/sqldumpname.sql ubuntu@13.51.200.26:/home/ubuntu/
+
+mysql -uuser -p
+use congac;
+source /home/ubuntu/sqldumpname.sql;
